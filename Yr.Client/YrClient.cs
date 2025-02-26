@@ -1,6 +1,7 @@
 ﻿using Flurl;
 using Flurl.Http;
 using Yr.Model;
+using Yr.Model.Aurora;
 
 namespace Yr.Client;
 
@@ -27,6 +28,9 @@ public class YrClient(YrOptions options)
 
     public async Task<Forecast> GetForecast(ILocationParameter location) =>
         await GetAsync<Forecast>($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/forecast");
+
+    public async Task<Aurora> GetAurora(ILocationParameter location) =>
+        await GetAsync<Aurora>($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/auroraforecast");
 
     public async Task<T> GetAsync<T>(string uri) => await uri
         .SetQueryParam("language", options.Language.Code())

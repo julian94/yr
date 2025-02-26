@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Yr.Model;
+using Yr.Model.Location.Requestables;
 
 namespace Test.Yr.Model;
 

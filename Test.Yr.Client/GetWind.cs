@@ -1,0 +1,457 @@
+﻿using Flurl.Http.Testing;
+using System.Text.Json;
+using Yr.Client;
+using Yr.Model.Map;
+
+namespace Test.Yr.Client;
+
+public class GetWind
+{
+    private const string Data = """
+        {
+          "bounds": [
+            -180,
+            -85.06,
+            180,
+            85.06
+          ],
+          "minzoom": 0,
+          "maxzoom": 6,
+          "scheme": "xyz",
+          "name": "wind",
+          "times": [
+            {
+              "time": "2025-02-26T20:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022620/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022620/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-26T21:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022621/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022621/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-26T22:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022622/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022622/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-26T23:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022623/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022623/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T00:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022700/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022700/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T01:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022701/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022701/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T02:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022702/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022702/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T03:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022703/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022703/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T04:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022704/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022704/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T05:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022705/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022705/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T06:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022706/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022706/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T07:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022707/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022707/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T08:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022708/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022708/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T09:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022709/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022709/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T10:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022710/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022710/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T11:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022711/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022711/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T12:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022712/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022712/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T13:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022713/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022713/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T14:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022714/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022714/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T15:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022715/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022715/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T16:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022716/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022716/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T17:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022717/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022717/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T18:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022718/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022718/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T19:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022719/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022719/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T20:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022720/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022720/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T21:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022721/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022721/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T22:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022722/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022722/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-27T23:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022723/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022723/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T00:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022800/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022800/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T01:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022801/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022801/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T02:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022802/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022802/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T03:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022803/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022803/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T04:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022804/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022804/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T05:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022805/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022805/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T06:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022806/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022806/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T07:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022807/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022807/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T08:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022808/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022808/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T09:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022809/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022809/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T10:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022810/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022810/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T11:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022811/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022811/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T12:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022812/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022812/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T13:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022813/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022813/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T14:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022814/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022814/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T15:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022815/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022815/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T16:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022816/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022816/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T17:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022817/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022817/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T18:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022818/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022818/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T19:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022819/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022819/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T20:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022820/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022820/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T21:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022821/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022821/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T22:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022822/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022822/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-02-28T23:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022823/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025022823/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-03-01T00:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030100/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030100/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-03-01T01:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030101/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030101/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-03-01T02:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030102/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030102/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-03-01T03:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030103/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030103/tiles/{z}/{x}/{y}.webp"
+              }
+            },
+            {
+              "time": "2025-03-01T04:00:00Z",
+              "tiles": {
+                "png": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030104/tiles/{z}/{x}/{y}.png",
+                "webp": "https://tiles.yr.no/api/wind/98e1d84c-013c-4d10-80d6-d572b89e9eeb/2025030104/tiles/{z}/{x}/{y}.webp"
+              }
+            }
+          ]
+        }
+        """;
+
+    private static Wind Forecast { get => JsonSerializer.Deserialize<Wind>(Data) ?? throw new Exception(); }
+
+    [Test]
+    public async Task CanFetch()
+    {
+        using var httpTest = new HttpTest();
+
+        httpTest.RespondWithJson(Forecast);
+
+        var options = new YrOptions()
+        {
+            ProgramInfo = new()
+            {
+                Name = "test",
+                Version = "0.0.0",
+                ContactPoint = "admin@example.com",
+            }
+        };
+
+        var wind = await YrClient.GetAsync<Wind>(options);
+
+        httpTest.ShouldHaveCalled("https://tiles.yr.no/api/wind/available.json").Times(1);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(wind.Name, Is.EqualTo("wind"));
+            Assert.That(wind.Scheme, Is.EqualTo("xyz"));
+            Assert.That(wind.Minzoom, Is.EqualTo(0));
+            Assert.That(wind.Maxzoom, Is.EqualTo(6));
+        });
+    }
+}

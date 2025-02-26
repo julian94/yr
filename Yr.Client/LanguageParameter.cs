@@ -2,6 +2,7 @@
 
 public enum LanguageParameter
 {
+    Unset,
     Unknown,
     English,
     NorwegianNynorsk,

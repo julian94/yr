@@ -9,14 +9,14 @@ public interface ILocationParameter
 
 public class LocationID : ILocationParameter
 {
-    public string ID { get; init; }
-    public string Parameter { get => ID; }
+    public required string ID { get; init; }
+    public string Parameter => ID;
 }
 
 public class CoordinateLocation : ILocationParameter
 {
-    public double Latitude { get; init; }
-    public double Longitude { get; init; }
+    public required double Latitude { get; init; }
+    public required double Longitude { get; init; }
 
-    public string Parameter { get => string.Create(CultureInfo.InvariantCulture, $"{Latitude:N4},{Longitude:N4}"); }
+    public string Parameter => string.Create(CultureInfo.InvariantCulture, $"{Latitude:N4},{Longitude:N4}");
 }

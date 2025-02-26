@@ -1,8 +1,8 @@
-﻿using Yr.Model.Position;
+﻿using Yr.Model.Location.Position;
 
-namespace Yr.Model;
+namespace Yr.Model.Location.Requestables;
 
-public class Location
+public class LocationData : ILocationRequestable
 {
 
     [JsonPropertyName("category")]
@@ -15,10 +15,10 @@ public class Location
     public string? Name { get; init; }
 
     [JsonPropertyName("position")]
-    public Position? Position { get; init; }
+    public Coordinates? Position { get; init; }
 
     [JsonPropertyName("coastalPoint")]
-    public Position? CoastalPoint { get; init; }
+    public Coordinates? CoastalPoint { get; init; }
 
     [JsonPropertyName("elevation")]
     public int? Elevation { get; init; }

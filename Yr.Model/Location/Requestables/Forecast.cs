@@ -1,6 +1,6 @@
-﻿namespace Yr.Model;
+﻿namespace Yr.Model.Location.Requestables;
 
-public class Forecast
+public class Forecast : ILocationRequestable
 {
     [JsonPropertyName("created")]
     public DateTimeOffset? Created { get; set; }

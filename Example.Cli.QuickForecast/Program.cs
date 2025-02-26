@@ -1,7 +1,8 @@
 ﻿using System.Globalization;
 using Yr.Client;
+using Yr.Model.Location.Requestables;
 
-YrClient client = new(new()
+YrOptions options = new()
 {
     ProgramInfo = new()
     {
@@ -10,7 +11,7 @@ YrClient client = new(new()
         Version = "0.0.1",
     },
     Language = LanguageParameter.English,
-});
+};
 
 ILocationParameter location = args switch
 {
@@ -31,7 +32,7 @@ ILocationParameter location = args switch
         """),
 };
 
-var forecast = await client.GetForecast(location);
+var forecast = await location.GetAsync<Forecast>(options);
 var next = forecast?.ShortIntervals?[0] ?? throw new Exception("Weather report is busted, please report this on github if problem persists.");
 
 Console.WriteLine(

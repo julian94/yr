@@ -1,4 +1,4 @@
-﻿namespace Yr.Model;
+﻿namespace Yr.Model.Location;
 
 public class OneValue
 {

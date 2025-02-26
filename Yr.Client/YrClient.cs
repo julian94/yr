@@ -1,39 +1,92 @@
 ﻿using Flurl;
 using Flurl.Http;
 using Yr.Model;
-using Yr.Model.Aurora;
+using Yr.Model.Location.Requestables;
+using Yr.Model.Map;
 
 namespace Yr.Client;
 
-public class ProgramInfo
+
+public static class YrClient
 {
-    public required string Name { get; init; }
-    public required string Version { get; init; }
-    public required string ContactPoint { get; init; }
+    public static Uri GetLocationUri<T>(this ILocationParameter location) where T : ILocationRequestable =>
+        typeof(T).Name switch
+        {
+            nameof(LocationData) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}"),
+            nameof(Forecast) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/forecast"),
+            nameof(Aurora) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/auroraforecast"),
+            _ => throw new Exception("Unsupported request.")
+        };
 
-    public override string ToString() => $"{Name}/{Version} - {ContactPoint}";
-}
+    public static Uri GetGlobalUri<T>() where T : IRequestable =>
+        typeof(T).Name switch
+        {
+            nameof(RainObservations) => new($"{RouteConstants.TileBasePath}/api/precipitation-observations/available.json"),
+            nameof(RainPredictions) => new($"{RouteConstants.TileBasePath}/api/precipitation-nowcast/available.json"),
+            nameof(Wind) => new($"{RouteConstants.TileBasePath}/api/wind/available.json"),
+            _ => throw new Exception("Unsupported request.")
+        };
 
-public class YrOptions
-{
-    public LanguageParameter Language { get; init; } = LanguageParameter.English;
+    /// <summary>
+    /// Fetch location based weather data.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="location"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    public static Task<T> GetAsync<T>(this ILocationParameter location, YrOptions options) where T : ILocationRequestable =>
+        location
+            .GetLocationUri<T>()
+            .GetAsync<T>(options);
 
-    public required ProgramInfo ProgramInfo { get; init; }
-}
+    public static Task<T> GetAsync<T>(YrOptions options) where T : IRequestable =>
+        GetGlobalUri<T>()
+            .ToFlurlRequest()
+            .WithApiHeader()
+            .WithLanguage(options.Language)
+            .WithProgramInfo(options.ProgramInfo)
+            .GetJsonAsync<T>();
 
-public class YrClient(YrOptions options)
-{
-    public async Task<Location> GetLocation(ILocationParameter location) =>
-        await GetAsync<Location>($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}");
+    public static Task<T> GetAsync<T>(this Uri uri, YrOptions options) where T : IRequestable =>
+        uri
+            .ToFlurlRequest()
+            .WithApiHeader()
+            .WithLanguage(options.Language)
+            .WithProgramInfo(options.ProgramInfo)
+            .GetJsonAsync<T>();
 
-    public async Task<Forecast> GetForecast(ILocationParameter location) =>
-        await GetAsync<Forecast>($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/forecast");
+    /// <summary>
+    /// Converts uri to flurlrequest.
+    /// </summary>
+    /// <param name="uri">Uri to be requested.</param>
+    /// <returns></returns>
+    private static FlurlRequest ToFlurlRequest(this Uri uri) => new(uri);
 
-    public async Task<Aurora> GetAurora(ILocationParameter location) =>
-        await GetAsync<Aurora>($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/auroraforecast");
+    /// <summary>
+    /// Sets optional header to specify that this api library is being used.
+    /// </summary>
+    /// <param name="obj">Object containing request headers.</param>
+    /// <returns></returns>
+    private static IFlurlRequest WithApiHeader(this IFlurlRequest obj) =>
+        obj.WithHeader("x-api-client", "yr-api/0.0.1 - https://github.com/julian94/yr");
 
-    public async Task<T> GetAsync<T>(string uri) => await uri
-        .SetQueryParam("language", options.Language.Code())
-        .WithHeader("User-Agent", options.ProgramInfo.ToString())
-        .GetJsonAsync<T>();
+    /// <summary>
+    /// Sets mandatory header to specify program and contact information.
+    /// </summary>
+    /// <param name="obj">Object containing request headers.</param>
+    /// <param name="info">Information about the client.</param>
+    /// <returns></returns>
+    private static IFlurlRequest WithProgramInfo(this IFlurlRequest obj, ProgramInfo info) =>
+        obj.WithHeader("User-Agent", info.ToString());
+
+    /// <summary>
+    /// Sets optional language parameter.
+    /// </summary>
+    /// <param name="obj">Object containing request headers.</param>
+    /// <param name="language">The language you want the response in.</param>
+    /// <returns></returns>
+    private static IFlurlRequest WithLanguage(this IFlurlRequest obj, LanguageParameter language) =>
+        (language == LanguageParameter.Unknown || language == LanguageParameter.Unset)
+        ? obj
+        : obj.SetQueryParam("language", language.Code());
 }

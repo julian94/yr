@@ -1,7 +1,7 @@
 ﻿using Flurl.Http.Testing;
 using System.Text.Json;
 using Yr.Client;
-using Yr.Model;
+using Yr.Model.Location.Requestables;
 
 namespace Test.Yr.Client;
 
@@ -5926,7 +5926,7 @@ public class GetForecast
 
         httpTest.RespondWithJson(Forecast);
 
-        var client = new YrClient(new()
+        var options = new YrOptions()
         {
             ProgramInfo = new()
             {
@@ -5934,14 +5934,14 @@ public class GetForecast
                 Version = "0.0.0",
                 ContactPoint = "admin@example.com",
             }
-        });
+        };
 
         var location = new LocationID()
         {
             ID = "1-92416"
         };
 
-        var forecast = await client.GetForecast(location);
+        var forecast = await location.GetAsync<Forecast>(options);
 
         httpTest.ShouldHaveCalled("https://www.yr.no/api/v0/locations/1-92416/forecast").Times(1);
 

@@ -1,6 +1,6 @@
-﻿namespace Yr.Model.Position;
+﻿namespace Yr.Model.Location.Position;
 
-public class Category
+public class Region
 {
     [JsonPropertyName("id")]
     public string? ID { get; init; }

@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Yr.Model;
+using Yr.Model.Location.Requestables;
 
 namespace Test.Yr.Model;
 
@@ -116,7 +116,7 @@ public class CanParseLocation
         }
         """;
 
-    private static Location Location { get => JsonSerializer.Deserialize<Location>(Data) ?? throw new Exception(); }
+    private static LocationData Location { get => JsonSerializer.Deserialize<LocationData>(Data) ?? throw new Exception(); }
 
     [Test]
     public void ParsesWithoutThrowing()

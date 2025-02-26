@@ -1,4 +1,4 @@
-﻿namespace Yr.Model.Position;
+﻿namespace Yr.Model.Location.Position;
 
 public class Coordinates
 {

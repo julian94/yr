@@ -5932,7 +5932,7 @@ public class GetForecast
             {
                 Name = "test",
                 Version = "0.0.0",
-                Email = "admin@example.com",
+                ContactPoint = "admin@example.com",
             }
         });
 

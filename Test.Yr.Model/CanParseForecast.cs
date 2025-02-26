@@ -5931,7 +5931,7 @@ public class CanParseForecast
         Assert.Multiple(() =>
         {
             Assert.That(forecast.Created, Is.EqualTo(new DateTimeOffset(2025, 02, 26, 13, 27, 46, new TimeSpan(1, 0, 0))));
-            Assert.That(forecast.Update,  Is.EqualTo(new DateTimeOffset(2025, 02, 26, 14, 27, 46, new TimeSpan(1, 0, 0))));
+            Assert.That(forecast.Update, Is.EqualTo(new DateTimeOffset(2025, 02, 26, 14, 27, 46, new TimeSpan(1, 0, 0))));
         });
     }
 
@@ -5961,7 +5961,7 @@ public class CanParseForecast
         Assert.Multiple(() =>
         {
             Assert.That(first.Start, Is.EqualTo(new DateTimeOffset(2025, 02, 26, 13, 00, 00, new TimeSpan(1, 0, 0))));
-            Assert.That(first.End,   Is.EqualTo(new DateTimeOffset(2025, 02, 26, 23, 00, 00, new TimeSpan(1, 0, 0))));
+            Assert.That(first.End, Is.EqualTo(new DateTimeOffset(2025, 02, 26, 23, 00, 00, new TimeSpan(1, 0, 0))));
 
             Assert.That(first.SymbolConfidence, Is.EqualTo("Certain"));
             Assert.That(first.TwentyFourHourSymbol, Is.EqualTo("rain"));
@@ -6002,7 +6002,7 @@ public class CanParseForecast
         Assert.Multiple(() =>
         {
             Assert.That(first.Start, Is.EqualTo(new DateTimeOffset(2025, 02, 26, 14, 00, 00, new TimeSpan(1, 0, 0))));
-            Assert.That(first.End,   Is.EqualTo(new DateTimeOffset(2025, 02, 26, 18, 00, 00, new TimeSpan(1, 0, 0))));
+            Assert.That(first.End, Is.EqualTo(new DateTimeOffset(2025, 02, 26, 18, 00, 00, new TimeSpan(1, 0, 0))));
         });
     }
 
@@ -6018,7 +6018,7 @@ public class CanParseForecast
         Assert.Multiple(() =>
         {
             Assert.That(first.Start, Is.EqualTo(new DateTimeOffset(2025, 02, 26, 14, 00, 00, new TimeSpan(1, 0, 0))));
-            Assert.That(first.End,   Is.EqualTo(new DateTimeOffset(2025, 02, 26, 15, 00, 00, new TimeSpan(1, 0, 0))));
+            Assert.That(first.End, Is.EqualTo(new DateTimeOffset(2025, 02, 26, 15, 00, 00, new TimeSpan(1, 0, 0))));
         });
     }
 }

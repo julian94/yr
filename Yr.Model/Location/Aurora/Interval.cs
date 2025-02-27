@@ -24,7 +24,7 @@ public class Interval
     /// <summary>
     /// Seems to range from 0-1, where 0.4+ is high activity.
     /// </summary>
-    [JsonPropertyName("auroravalue")]
+    [JsonPropertyName("auroraValue")]
     public double? Auroravalue { get; init; }
 
     /// <summary>

@@ -9,5 +9,5 @@ public class StatusCode
     public string? Code { get; init; }
 
     [JsonIgnore]
-    public bool ServiceIsUp => Code == "OK";
+    public bool ServiceIsUp => Code == "Ok";
 }

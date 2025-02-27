@@ -29,7 +29,7 @@ public class CurrentHour : ILocationRequestable
     public OneValue? Precipitation { get; init; }
 
     [JsonPropertyName("wind")]
-    public Wind? Wind { get; init; }
+    public DetailedWind? Wind { get; init; }
 
     /// <summary>
     /// Service status

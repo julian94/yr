@@ -15,7 +15,7 @@ public partial class Period
     public IntOrDouble Minutes { get; init; }
     public IntOrDouble Seconds { get; init; }
 
-    
+
     /// <summary>
     /// Makes a new period from a string.
     /// </summary>
@@ -88,7 +88,7 @@ file static class PeriodExtensions
 
     public static DateTimeOffset AddWeeks(this DateTimeOffset date, IntOrDouble weeks)
     {
-        if (weeks.i is int i) return date.AddDays(7*i);
+        if (weeks.i is int i) return date.AddDays(7 * i);
         else if (weeks.d is double d) return date.AddDays(7 * d);
         else return date;
     }

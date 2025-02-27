@@ -8,6 +8,7 @@ public enum IntervalType
     StartAndDuration,
     PeriodAndEnd,
     DurationOnly,
+    InstantOnly,
 }
 
 public interface IInterval
@@ -117,4 +118,13 @@ public class PeriodOnlyInterval(Period period, Recurrance? recurrances) : IInter
     {
         throw new NotImplementedException();
     }
+}
+
+public class InstantInterval(DateTimeOffset instant) : IInterval
+{
+    public IntervalType IntervalType => IntervalType.InstantOnly;
+
+    public Recurrance? Recurrances => null;
+
+    public DateTimeOffset? Next(DateTimeOffset date) => (date < instant) ? instant : null;
 }

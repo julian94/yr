@@ -52,4 +52,7 @@ public class Aurora : ILocationRequestable
     /// </summary>
     [JsonPropertyName("status")]
     public StatusCode? Status { get; init; }
+
+    [JsonPropertyName("_links")]
+    public Links? Links { get; init; }
 }

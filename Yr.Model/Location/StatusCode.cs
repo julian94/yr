@@ -1,4 +1,4 @@
-﻿namespace Yr.Model.Location.Aurora;
+﻿namespace Yr.Model.Location;
 
 public class StatusCode
 {

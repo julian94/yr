@@ -9,6 +9,14 @@ namespace Yr.Client;
 
 public static class YrClient
 {
+    public static Uri GetSearchUri<T>(this string query) where T : ISearchable =>
+        typeof(T).Name switch
+        {
+            nameof(Search) => new($"{RouteConstants.BasePath}/api/v0/locations/search?q={query}"),
+            nameof(Suggest) => new($"{RouteConstants.BasePath}/api/v0/locations/suggest?q={query}"),
+            _ => throw new Exception("Unsupported request.")
+        };
+
     public static Uri GetLocationUri<T>(this ILocationParameter location) where T : ILocationRequestable =>
         typeof(T).Name switch
         {
@@ -39,6 +47,11 @@ public static class YrClient
     public static Task<T> GetAsync<T>(this ILocationParameter location, YrOptions options) where T : ILocationRequestable =>
         location
             .GetLocationUri<T>()
+            .GetAsync<T>(options);
+
+    public static Task<T> SearchAsync<T>(this string query, YrOptions options) where T : ISearchable =>
+        query
+            .GetSearchUri<T>()
             .GetAsync<T>(options);
 
     public static Task<T> GetAsync<T>(YrOptions options) where T : IRequestable =>

@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Cli.QuickForecast",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Service.Reporter", "Example.Service.Reporter\Example.Service.Reporter.csproj", "{08663EC2-90ED-4EB1-8E3A-3D2B2FE505C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Cli.Search", "Example.Cli.Search\Example.Cli.Search.csproj", "{45B37F48-BB78-4A24-896B-02DFB344887D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{08663EC2-90ED-4EB1-8E3A-3D2B2FE505C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08663EC2-90ED-4EB1-8E3A-3D2B2FE505C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08663EC2-90ED-4EB1-8E3A-3D2B2FE505C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45B37F48-BB78-4A24-896B-02DFB344887D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B37F48-BB78-4A24-896B-02DFB344887D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45B37F48-BB78-4A24-896B-02DFB344887D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45B37F48-BB78-4A24-896B-02DFB344887D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

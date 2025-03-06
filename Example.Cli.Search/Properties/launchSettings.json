@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Example.Cli.Search": {
+      "commandName": "Project",
+      "commandLineArgs": "Bergen"
+    }
+  }
+}

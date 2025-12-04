@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="LICENSE" />
+    <File Path="Readme.md" />
+  </Folder>
+  <Project Path="Example.Cli.QuickForecast/Example.Cli.QuickForecast.csproj" />
+  <Project Path="Example.Cli.Search/Example.Cli.Search.csproj" />
+  <Project Path="Example.Service.Reporter/Example.Service.Reporter.csproj" />
+  <Project Path="Test.Yr.Client/Test.Yr.Client.csproj" />
+  <Project Path="Test.Yr.Model/Test.Yr.Model.csproj" />
+  <Project Path="Yr.Client/Yr.Client.csproj" />
+  <Project Path="Yr.Model/Yr.Model.csproj" />
+</Solution>

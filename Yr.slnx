@@ -8,6 +8,7 @@
   <Project Path="Example.Cli.QuickForecast/Example.Cli.QuickForecast.csproj" />
   <Project Path="Example.Cli.Search/Example.Cli.Search.csproj" />
   <Project Path="Example.Service.Reporter/Example.Service.Reporter.csproj" />
+  <Project Path="Example.Tui.Forecast/Example.Tui.Forecast.csproj" />
   <Project Path="Test.Yr.Client/Test.Yr.Client.csproj" />
   <Project Path="Test.Yr.Model/Test.Yr.Model.csproj" />
   <Project Path="Yr.Client/Yr.Client.csproj" />

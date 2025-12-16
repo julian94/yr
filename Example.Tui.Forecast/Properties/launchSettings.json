@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Example.Tui.Forecast": {
+      "commandName": "Project",
+      "commandLineArgs": "60.39323 5.3245"
+    }
+  }
+}

@@ -28,13 +28,12 @@ ILocationParameter location = args switch
         """),
 };
 
-var forecast = await location.GetAsync<Forecast>(options);
-var next = forecast?.ShortIntervals?[0] ?? 
-    throw new Exception("Weather report is busted, please report this on github if problem persists.");
+var nowcast = await location.GetAsync<NowCast>(options);
+var rainfall = nowcast.Points?.Select(t => new RainTimePoint(t, Color.Blue)).ToList();
 
-Console.WriteLine(
-$"""
-The Weather for the next hour will be {next.SymbolCode?.NextHour}
-{next.Temperature?.Value:N1}°C  {next.Wind?.Speed:N1}m/s {next.Wind?.CompassDirection}
-with {next.Precipitation?.Minimum:N1}-{next.Precipitation?.Maximum:N1}mm of precipitation
-""");
+AnsiConsole.Write(new BarChart()
+    .Width(60)
+    .Label("Rain Precipitation")
+    .CenterLabel()
+    .AddItems(rainfall)
+);

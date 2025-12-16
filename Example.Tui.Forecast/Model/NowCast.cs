@@ -1,8 +1,8 @@
 namespace Yr.Example.Tui.Forecast.Model;
 
-public sealed class Rain : IBarChartItem
+public sealed class RainTimePoint(TimePoint t, Color c) : IBarChartItem
 {
-    public required string Label { get; set; }
-    public required double Value { get; set; }
-    public required Color? Color { get; set; }
+    public string Label { get; set; } = t.Time.ToString();
+    public double Value { get; set; } = t.Precipitation.Intensity.Value;
+    public Color? Color { get; set; } = c;
 }

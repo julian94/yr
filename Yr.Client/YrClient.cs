@@ -23,7 +23,7 @@ public static class YrClient
             nameof(LocationData) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}"),
             nameof(Forecast) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/forecast"),
             nameof(Aurora) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/auroraforecast"),
-            nameof(NowCast) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/now"),
+            nameof(NowCast) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/forecast/now"),
             nameof(CurrentHour) => new($"{RouteConstants.BasePath}/api/v0/locations/{location.Parameter}/currenthour"),
             _ => throw new Exception("Unsupported request.")
         };
